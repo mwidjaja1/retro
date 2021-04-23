@@ -260,6 +260,7 @@ def path(hint=DATA_PATH):
     if hint == DATA_PATH and not os.path.exists(os.path.join(DATA_PATH, 'data', 'stable', 'Airstriker-Genesis')):
         # Development installation
         hint = os.path.join(hint, '..')
+    print(f"hint={hint}")
     return _data_path(hint)
 
 
@@ -270,9 +271,11 @@ def get_file_path(game, file, inttype=Integrations.DEFAULT):
     base = path()
     for t in inttype.paths:
         possible_path = os.path.join(base, t, game, file)
+        print(f"possible_path candidates = {possible_path}")
         if os.path.exists(possible_path):
+            print(f"possible_path success = {possible_path}")
             return possible_path
-
+    print(f"no path found starting with {base}")
     return None
 
 
@@ -283,8 +286,8 @@ def get_romfile_path(game, inttype=Integrations.DEFAULT):
     for extension in EMU_EXTENSIONS.keys():
         possible_path = get_file_path(game, "rom" + extension, inttype)
         if possible_path:
+            print(f"possible_path success x2 = {possible_path}")
             return possible_path
-
     raise FileNotFoundError("No romfiles found for game: %s" % game)
 
 
